@@ -10,6 +10,7 @@ pipeline {
             steps {
                 script {
                 sh "echo 'Hello, World Usach! - Con Webhook'"
+                sh "echo 'Chao - Con Webhook'"
                 }
             }
         }
