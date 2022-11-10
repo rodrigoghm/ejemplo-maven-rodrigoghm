@@ -1,7 +1,7 @@
 # Getting Started
 
 ## Windows
-
+Example rodrigoghm@gmail.com
 ### Compile Code
 * ./mvnw.cmd clean compile -e
 
