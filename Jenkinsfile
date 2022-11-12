@@ -11,6 +11,7 @@ pipeline {
             steps {
                 script {
                 sh "echo 'Compile Code!'"
+                sh "echo 'Nuevo cambio 12.11.2022!'"
                 // Run Maven on a Unix agent.
                 sh "./mvnw clean compile -e"
                 }
