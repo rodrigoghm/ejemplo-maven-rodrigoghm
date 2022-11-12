@@ -7,7 +7,7 @@ pipeline {
     agent any
     stages {
 
-        stage("Paso 1: Compliar"){
+        stage("Paso 1: Compile Code"){
             steps {
                 script {
                 sh "echo 'Compile Code!'"
@@ -16,7 +16,7 @@ pipeline {
                 }
             }
         }
-        stage("Paso 2: Testear"){
+        stage("Paso 2: Test"){
             steps {
                 script {
                 sh "echo 'Test Code!'"
