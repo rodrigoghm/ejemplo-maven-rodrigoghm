@@ -7,14 +7,22 @@ def jsonParse(def json) {
 pipeline {
     agent any
     stages {
-
         stage("Paso 1: Compile Code"){
             steps {
                 script {
+                env.STAGE='Compile Code'
+                env.ALUMNO="Rodrigo Higuera"
                 sh "echo 'Compile Code!'"
-                sh "echo 'Nuevo cambio 26.11.2022'"
                 // Run Maven on a Unix agent.
                 sh "./mvnw clean compile -e"
+                }
+                post{
+                    success{
+                        slackSend color: 'good', message: "Build Success [${env.ALUMNO}] [${JOB_NAME}] Ejecucion Exitosa en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+                    }
+                    failure{
+                        slackSend color: 'danger', message: "Build Failure [${env.ALUMNO}] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+                    }
                 }
             }
         }
