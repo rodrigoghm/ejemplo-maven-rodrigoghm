@@ -15,7 +15,6 @@ pipeline {
                 sh "echo 'Compile Code!'"
                 // Run Maven on a Unix agent.
                 sh "./mvnw clean compile -e"
-                exit 127
                 }
             }
             post{
