@@ -33,7 +33,6 @@ pipeline {
                 sh "echo 'Test Code!'"
                 // Run Maven on a Unix agent.
                 sh "./mvnw clean test -e"
-                exit 127
                 }
             }
             post{
