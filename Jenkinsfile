@@ -30,20 +30,38 @@ pipeline {
         stage("Paso 2: Test"){
             steps {
                 script {
+                env.STAGE='Test'
                 sh "echo 'Test Code!'"
                 // Run Maven on a Unix agent.
                 sh "./mvnw clean test -e"
                 }
             }
+            post{
+				success{
+					slackSend color: 'good', message: "Build Success [${env.ALUMNO}] [${JOB_NAME}] Ejecucion Exitosa en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+				}
+				failure{
+					slackSend color: 'danger', message: "Build Failure [${env.ALUMNO}] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+				}
+			}
         }
         stage("Paso 3: Build .Jar"){
             steps {
                 script {
+                env.STAGE='Build Jar'
                 sh "echo 'Build .Jar!'"
                 // Run Maven on a Unix agent.
                 sh "./mvnw clean package -e"
                 }
             }
+            post{
+				success{
+					slackSend color: 'good', message: "Build Success [${env.ALUMNO}] [${JOB_NAME}] Ejecucion Exitosa en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+				}
+				failure{
+					slackSend color: 'danger', message: "Build Failure [${env.ALUMNO}] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+				}
+			}
         }
     }
     post {
