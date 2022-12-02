@@ -66,7 +66,7 @@ pipeline {
             steps {
                 script {
                 env.STAGE='Run And Test App'
-                sh "echo 'Build .Jar!'"
+                sh "echo 'Run App'"
                 sh "nohup bash mvnw spring-boot:run & >/dev/null"
                 sh "sleep 15 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
                 }
@@ -80,7 +80,23 @@ pipeline {
 				}
 			}
         }
-        stage("Paso 5: Stop App"){
+        stage("Paso 5: Test Postman"){
+            steps {
+                script {
+                env.STAGE='Test Postman'
+                sh "newman run ./postman/maven.postman_collection.json  -n 10  --delay-request 1000"
+                }
+            }
+            post{
+				success{
+					slackSend color: 'good', message: "Build Success [${env.ALUMNO}] [${JOB_NAME}] Ejecucion Exitosa en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+				}
+				failure{
+					slackSend color: 'danger', message: "Build Failure [${env.ALUMNO}] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+				}
+			}
+        }
+        stage("Paso 6: Stop App"){
             steps {
                 script {
                 env.STAGE='Stop App'
