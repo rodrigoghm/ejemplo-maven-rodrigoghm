@@ -84,10 +84,11 @@ pipeline {
             steps {
                 script {
                 env.STAGE='Stop App'
-                sh "echo 'Build .Jar!'"
-                sh "echo 'Process Spring Boot Java: ' $(pidof java | awk '{print $1}') "
-                sh "sleep 20"
-                sh "kill -9 $(pidof java | awk '{print $1}')"
+                sh '''
+                        echo 'Process Spring Boot Java: ' $(pidof java | awk '{print $1}')  
+                        sleep 20
+                        kill -9 $(pidof java | awk '{print $1}')
+                    '''
                 }
             }
             post{
