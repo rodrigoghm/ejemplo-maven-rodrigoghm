@@ -62,6 +62,43 @@ pipeline {
 				}
 			}
         }
+        stage("Paso 4: Run App"){
+            steps {
+                script {
+                env.STAGE='Run And Test App'
+                sh "echo 'Build .Jar!'"
+                sh "nohup bash mvnw spring-boot:run & >/dev/null"
+                sh "sleep 15 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+                }
+            }
+            post{
+				success{
+					slackSend color: 'good', message: "Build Success [${env.ALUMNO}] [${JOB_NAME}] Ejecucion Exitosa en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+				}
+				failure{
+					slackSend color: 'danger', message: "Build Failure [${env.ALUMNO}] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+				}
+			}
+        }
+        stage("Paso 5: Stop App"){
+            steps {
+                script {
+                env.STAGE='Stop App'
+                sh "echo 'Build .Jar!'"
+                sh "echo 'Process Spring Boot Java: ' $(pidof java | awk '{print $1}') "
+                sh "sleep 20"
+                sh "kill -9 $(pidof java | awk '{print $1}')"
+                }
+            }
+            post{
+				success{
+					slackSend color: 'good', message: "Build Success [${env.ALUMNO}] [${JOB_NAME}] Ejecucion Exitosa en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+				}
+				failure{
+					slackSend color: 'danger', message: "Build Failure [${env.ALUMNO}] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
+				}
+			}
+        }
     }
     post {
         always {
