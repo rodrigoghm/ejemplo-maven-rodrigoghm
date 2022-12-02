@@ -156,8 +156,8 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Response time is less than 1000ms\", function () {",
-							"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+							"pm.test(\"Response time is less than 2500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2500);",
 							"});",
 							"",
 							"pm.test(\"Status code is 200\", function () {",
