@@ -84,7 +84,7 @@ pipeline {
             steps {
                 script {
                 env.STAGE='Test Postman'
-                sh "newman run ./postman/maven.postman_collection.json  -n 10  --delay-request 1000"
+                sh "newman run ./postman/maven.postman_collection.json  -n 3  --delay-request 500"
                 }
             }
             post{
