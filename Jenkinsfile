@@ -80,22 +80,6 @@ pipeline {
 				}
 			}
         }
-        stage("Paso 5: Test Postman"){
-            steps {
-                script {
-                env.STAGE='Test Postman'
-                sh "newman run ./postman/maven2.postman_collection.json  -n 2  --delay-request 500"
-                }
-            }
-            post{
-				success{
-					slackSend color: 'good', message: "Build Success [${env.ALUMNO}] [${JOB_NAME}] Ejecucion Exitosa en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
-				}
-				failure{
-					slackSend color: 'danger', message: "Build Failure [${env.ALUMNO}] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.STAGE}]", teamDomain: 'devopsusach20-lzc3526', tokenCredentialId: 'token-slack-new'
-				}
-			}
-        }
         stage("Paso 6: Stop App"){
             steps {
                 script {
